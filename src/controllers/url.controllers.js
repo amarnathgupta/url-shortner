@@ -1,13 +1,18 @@
 import { nanoid } from "nanoid";
 import { Url } from "../models/url.models";
 
-const shortenURL = async (originalUrl) => {
+export const shortenURL = async (originalUrl, userId) => {
     try {
         const existingUrl = await Url.findOne({
             originalUrl,
+            owner: userId
         });
         if (existingUrl) {
-            return existingUrl.shortUrl;
+            return { 
+                success: true, 
+                message: "Url existed!", 
+                data: existingUrl.shortUrl 
+            };
         }
         const shortCode = nanoid(11);
         const shortUrl = `http://localhost:3000/${shortCode}`;
@@ -15,14 +20,20 @@ const shortenURL = async (originalUrl) => {
         const url = new Url({
             originalUrl,
             shortUrl,
-            shortCode
+            shortCode,
+            owner: userId
         })
         await url.save();
-        return shortUrl;
-    } catch (error) {
-        console.error("Error shortening URL: ",error);
         return {
-            error: "Error shortening URL",
+            success: true,
+            message: "URL shortened successfully",
+            data: shortUrl
+        };
+    } catch (error) {
+        return {
+            success: false,
+            message: "Error shortening URL",
+            data: error.message
         }
     }
 }

@@ -1,13 +1,12 @@
 import mongoose, { Schema } from "mongoose";
+import urlValidator from "../validators/url.validators";
 
 const urlSchema = new Schema({
     originalUrl: {
         type: String,
         required: true,
         validate: {
-            validator: function(url) {
-                return /^https?:\/\/[^\s]+$/i.test(url);
-            },
+            validator: urlValidator,
             message: 'Invalid URL'
         }
     },
@@ -46,3 +45,7 @@ const urlSchema = new Schema({
 });
 
 export const Url = mongoose.model('Url', urlSchema);
+
+
+// mongodb: amarnath2633 | password: cPFeCkyC1tZmV0IO
+// mongodb+srv://amarnath2633:cPFeCkyC1tZmV0IO@url-project.ogn5z.mongodb.net/

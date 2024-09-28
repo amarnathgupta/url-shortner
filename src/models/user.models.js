@@ -19,11 +19,14 @@ const userSchema = new Schema({
     },
     role: {
         type: String,
+        default: 'user',
         enum: ['admin', 'user'],
     },
     name: {
         type: String,
-        default: "User"
+        default: function() {
+            return this.username;
+        }
     }
 }, {timestamps: true});
 
