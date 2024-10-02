@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid";
-import { Url } from "../models/url.models";
+import { Url } from "../models/url.models.js";
 
 export const shortenURL = async (originalUrl, userId) => {
     try {

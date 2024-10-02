@@ -5,9 +5,11 @@ export const authMiddleware = (req, res, next) => {
     if (!token) {
         return res.status(401).json({ message: "No token provided" });
     }
+    console.log("Token || ",token);
 
     try {
-        const decoded = jwt.verify(token.split(" ")[1], process.env.JWT_SECRET);
+        const decoded = jwt.verify(token.split(" ")[1], process.env.SECRET_KEY);
+        console.log("Decode: ",decoded)
         req.user = decoded; // Attach user info to the request
         next();
     } catch (error) {

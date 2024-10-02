@@ -1,12 +1,19 @@
 import mongoose, { Schema } from "mongoose";
-import urlValidator from "../validators/url.validators";
+import urlValidator from "../validators/url.validators.js";
 
 const urlSchema = new Schema({
     originalUrl: {
         type: String,
         required: true,
         validate: {
-            validator: urlValidator,
+            validator: (v) => {
+                try {
+                  urlValidator.parse(v);
+                  return true;
+                } catch (error) {
+                  return false;
+                }
+            },
             message: 'Invalid URL'
         }
     },

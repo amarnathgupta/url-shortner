@@ -2,12 +2,6 @@ import mongoose, { model, Schema } from "mongoose";
 import bcrypt from "bcrypt";
 
 const userSchema = new Schema({
-    username: {
-        type: String,
-        required: true,
-        unique: true,
-        trim: true
-    },
     email: {
         type: String,
         required: true,
@@ -24,9 +18,7 @@ const userSchema = new Schema({
     },
     name: {
         type: String,
-        default: function() {
-            return this.username;
-        }
+        default: "User"
     }
 }, {timestamps: true});
 
